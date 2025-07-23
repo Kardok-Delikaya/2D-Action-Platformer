@@ -6,6 +6,7 @@ namespace ActionPlatformer
     public class HitStop : MonoBehaviour
     {
         bool isWaiting;
+ 
         public void HitStopEffect(float duration)
         {
             if(isWaiting)

@@ -1,4 +1,6 @@
 using ActionPlatformer;
+using NUnit.Framework.Internal;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,42 +9,43 @@ public class PlayerCombatManager : MonoBehaviour
     PlayerManager player;
 
     [Header("Player Stats")]
-    public int maxHealth = 300;
+    [SerializeField] int maxHealth = 300;
     int currentHealth;
-    public int maxMana = 100;
+    [SerializeField] int maxMana = 100;
     int currentMana;
-    public int maxUltimate = 100;
+    [SerializeField] int maxUltimate = 100;
     int currentUltimate;
-    public int maxPotion = 2;
+    [SerializeField] int maxPotion = 2;
     int currentPotion;
 
     [Header("Player Defence")]
-    public float physicalDefence;
-    public float magicDefence;
+    [SerializeField] float physicalDefence;
+    [SerializeField] float magicDefence;
+    [SerializeField] float blockDefence;
 
     [Header("Player Damage")]
-    public float physicalDamageMultiplier=1;
-    public float magicDamageMultiplier=1;
-    public float holyDamageMultiplier = 1;
+    [SerializeField] float physicalDamageMultiplier=1;
+    [SerializeField] float magicDamageMultiplier=1;
+    [SerializeField] float holyDamageMultiplier = 1;
 
     [Header("Attack Zones")]
-    public Transform damageZone;
-    public Transform parryZone;
+    [SerializeField] Transform damageZone;
+    [SerializeField] Transform parryZone;
 
     [Header("Enemy Layer")]
-    public LayerMask enemyLayer;
+    [SerializeField] LayerMask enemyLayer;
 
     [Header("Attack List")]
-    public AttackActions lightAttack01;
-    public AttackActions lightAttack02;
-    public AttackActions lightAttack03;
-    public AttackActions heavyAttack01;
-    public AttackActions heavyAttack02;
-    public AttackActions magicAttack01;
+    [SerializeField] AttackActions lightAttack01;
+    [SerializeField] AttackActions lightAttack02;
+    [SerializeField] AttackActions lightAttack03;
+    [SerializeField] AttackActions heavyAttack01;
+    [SerializeField] AttackActions heavyAttack02;
+    [SerializeField] AttackActions magicAttack01;
     AttackActions currentAttackAction;
 
     [Header("Last Attack")]
-    public AttackActions lastAttack;
+    [SerializeField] AttackActions lastAttack;
 
     [Header("Player Status")]
     public bool isBlocking;
@@ -51,7 +54,8 @@ public class PlayerCombatManager : MonoBehaviour
     public bool isAttacking;
 
     [Header("Timers")]
-    public float maxParryTimer = .1f;
+    [SerializeField] float maxParryTimer = .1f;
+    [SerializeField] float maxComboTimer = 1f;
     float parryTimer;
     float comboTimer;
 
@@ -62,10 +66,6 @@ public class PlayerCombatManager : MonoBehaviour
         currentMana = maxMana;
         currentUltimate = maxUltimate;
         currentPotion = maxPotion;
-    }
-
-    private void Start()
-    {
         player.uiManager.HandleUIStart(maxHealth, maxMana, maxUltimate, maxPotion, currentHealth, currentMana, currentUltimate, currentPotion);
     }
 
@@ -114,7 +114,7 @@ public class PlayerCombatManager : MonoBehaviour
             if (player.playerMovement.horizontalDirection==-1) player.playerMovement.Flip();
         }
 
-        if (parryTimer > 0 && hitDirection == transform.localScale.x)
+        if (parryTimer > 0 && hitDirection == player.playerMovement.horizontalDirection)
         {
             Collider2D[] enemies = Physics2D.OverlapBoxAll(parryZone.transform.position, parryZone.transform.localScale, 0, enemyLayer);
 
@@ -127,29 +127,31 @@ public class PlayerCombatManager : MonoBehaviour
             return;
         }
 
-        float finalDamage = physicalDamage * (1 - physicalDefence / 100) + magicDamage * (1 - magicDefence / 100);
+        float finalPhysicalDamage = player.skillTree.armorLevel > 2 ? physicalDamage * (1 - (physicalDefence + 10) / 100) : physicalDamage * (1 - physicalDefence / 100);
+        float finalMagicDamage = player.skillTree.armorLevel > 4 ? magicDamage * (1 - (magicDefence + 10) / 100) : magicDamage * (1 - magicDefence / 100);
 
-        if (isBlocking && hitDirection == transform.localScale.x) finalDamage *= 0.5f;
+        float finalDamage = finalPhysicalDamage + finalMagicDamage;
+
+        if (isBlocking && hitDirection == player.playerMovement.horizontalDirection) finalDamage *= player.skillTree.lessDamageWhileBlocking == true ? (blockDefence + 10) / 100 : blockDefence / 100;
 
         currentHealth -= Mathf.RoundToInt(finalDamage);
 
-        FindAnyObjectByType<HitStop>().HitStopEffect(.2f);
-        StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(2, .2f));
-
         if (currentHealth > 0)
         {
-            if (pushForce != 0)
+            FindAnyObjectByType<HitStop>().HitStopEffect(.2f);
+            StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(2, .2f));
+
+            if (pushForce > 0)
                 StartCoroutine(player.playerMovement.PushBackCoroutine(Mathf.RoundToInt(-pushForce * hitDirection)));
 
-            if (stunDuration != 0)
-                StartCoroutine(player.playerMovement.StunCoroutine(stunDuration));
+            if (stunDuration > 0)
+                StartCoroutine(StunCoroutine(stunDuration));
         }
         else
         {
             currentHealth=0;
             Die();
         }
-
 
         player.uiManager.UpdateHealthSlider(currentHealth);
     }
@@ -244,7 +246,16 @@ public class PlayerCombatManager : MonoBehaviour
     }
     #endregion
 
-    #region Setting Values
+    public IEnumerator StunCoroutine(float stunDuration)
+    {
+        isStunned = true;
+
+        yield return new WaitForSeconds(stunDuration);
+
+        isStunned = false;
+    }
+
+    #region Setting Values For Animation Event Keys
     public void SetInvulnarableTrue()
     {
         isInvulnerable = true;
@@ -260,7 +271,7 @@ public class PlayerCombatManager : MonoBehaviour
         isBlocking = true;
 
         if (player.skillTree.canDoParry)
-            parryTimer = maxParryTimer;
+            parryTimer = player.skillTree.moreParryLength == true ? maxParryTimer * 2 : maxParryTimer;
     }
 
     public void SetIsBlockingFalse()
@@ -270,7 +281,7 @@ public class PlayerCombatManager : MonoBehaviour
 
     public void StartComboTimer()
     {
-        comboTimer = 1f;
+        comboTimer = maxComboTimer;
     }
     #endregion
 }

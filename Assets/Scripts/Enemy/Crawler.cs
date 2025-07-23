@@ -8,12 +8,11 @@ public class Crawler : EnemyManager
 
         if (IsGrounded())
         {
-            DamageEnemyWhenTouched();
-
             if (attackTimer > 0 || isStunned)
                 return;
 
             MoveOnPlatform();
+            DamageEnemyWhenTouched();
         }
         else
         {

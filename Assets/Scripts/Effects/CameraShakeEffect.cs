@@ -6,11 +6,11 @@ namespace ActionPlatformer
 {
     public class CameraShakeEffect : MonoBehaviour
     {
-        public bool screenShake = true;
+        public bool canScreenShake = true;
 
         public IEnumerator ShakeCameraCorutine(float shakeIntensity, float shakeTime)
         {
-            if (screenShake)
+            if (canScreenShake)
             {
                 CinemachineBasicMultiChannelPerlin _cbmcp = GetComponent<CinemachineBasicMultiChannelPerlin>();
                 _cbmcp.AmplitudeGain = shakeIntensity;

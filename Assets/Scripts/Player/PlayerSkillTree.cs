@@ -17,14 +17,14 @@ public class PlayerSkillTree : MonoBehaviour
     public bool canDoParry;
     public bool moreParryLength;
     public bool lessDamageWhileBlocking;
-    public bool stunningAfterBlack;
+    public bool stunningAfterBlock;
     public bool damageBoostAfterParry; //+%10
     public bool stunnedEnemiesGetsMoreDamage; //+%30
 
     [Header("Weapon Upgrades")]
     public bool canDoCounterAttack;
     public bool canDoKickAttackAfterRoll;
-    public bool canMakeFlyingEnemiesFallToGroundWhileAttackingInAir;
+    public bool canMakeFlyingEnemiesFallToGroundWhileHeavyAttackingInAir;
     public bool deadEnemiesDropsMoreLoot;
 
     [Header("Magic Upgrades")]

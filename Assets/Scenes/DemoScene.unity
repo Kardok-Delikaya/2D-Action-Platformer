@@ -406,9 +406,9 @@ GameObject:
   - component: {fileID: 105303659}
   - component: {fileID: 105303662}
   - component: {fileID: 105303665}
+  - component: {fileID: 105303663}
   - component: {fileID: 105303661}
   - component: {fileID: 105303664}
-  - component: {fileID: 105303663}
   - component: {fileID: 105303666}
   - component: {fileID: 105303667}
   m_Layer: 6
@@ -572,6 +572,7 @@ MonoBehaviour:
   rollCoolDown: 1
   isRolling: 0
   jumpPower: 18
+  canWallJump: 0
   groundCheckSize: {x: 0.49, y: 0.03}
   wallCheckSize: {x: 0.05, y: 1}
   groundLayer:
@@ -782,11 +783,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDead: 0
   isInteracting: 0
-  uiManager: {fileID: 0}
-  skillTree: {fileID: 0}
-  playerMovement: {fileID: 0}
-  playerCombat: {fileID: 0}
-  playerAnimation: {fileID: 0}
 --- !u!114 &105303664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,6 +801,7 @@ MonoBehaviour:
   maxPotion: 2
   physicalDefence: 10
   magicDefence: 10
+  blockDefence: 0
   physicalDamageMultiplier: 1
   magicDamageMultiplier: 1
   holyDamageMultiplier: 1
@@ -825,6 +822,7 @@ MonoBehaviour:
   isStunned: 0
   isAttacking: 0
   maxParryTimer: 0.15
+  maxComboTimer: 1
 --- !u!95 &105303665
 Animator:
   serializedVersion: 7
@@ -1342,11 +1340,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 80
   speed: 7
-  physicalDamage: 15
-  magicDamage: 0
-  physicalDefence: 50
-  magicDefence: -25
-  holyDefence: -50
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -1358,18 +1351,11 @@ MonoBehaviour:
   canJump: 0
   healthSlider: {fileID: 1781230412}
   canRoll: 0
-  hasRolledRollChance: 0
   rollChance: 0
   rollSpeed: 0
   rollDuration: 0
   agroArea: {x: 0, y: 0}
-  inCombat: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
   attackCoolDown: 2
-  isFacingRight: 1
-  horizontalDirection: 1
   destinationX: 0
   maxWaitAroundTimer: 3
   baseGravity: 1
@@ -2147,8 +2133,8 @@ GameObject:
   - component: {fileID: 675810820}
   - component: {fileID: 675810819}
   - component: {fileID: 675810822}
-  - component: {fileID: 675810818}
   - component: {fileID: 675810821}
+  - component: {fileID: 675810818}
   - component: {fileID: 675810823}
   m_Layer: 0
   m_Name: CinemachineCamera
@@ -2299,7 +2285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfb2fe6dd4be294295cc187fcc3e4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenShake: 1
+  canScreenShake: 1
 --- !u!114 &675810823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4455,11 +4441,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 70
   speed: 3
-  physicalDamage: 20
-  magicDamage: 0
-  physicalDefence: -10
-  magicDefence: 20
-  holyDefence: -20
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -4471,18 +4452,11 @@ MonoBehaviour:
   canJump: 0
   healthSlider: {fileID: 472223422}
   canRoll: 1
-  hasRolledRollChance: 0
   rollChance: 25
   rollSpeed: 15
   rollDuration: 0.3
   agroArea: {x: 16, y: 4}
-  inCombat: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
   attackCoolDown: 3
-  isFacingRight: 0
-  horizontalDirection: -1
   destinationX: 0
   maxWaitAroundTimer: 3
   baseGravity: 1
@@ -23890,11 +23864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   speed: 7
-  physicalDamage: 30
-  magicDamage: 0
-  physicalDefence: 10
-  magicDefence: -20
-  holyDefence: 0
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -23906,18 +23875,11 @@ MonoBehaviour:
   canJump: 0
   healthSlider: {fileID: 261031161}
   canRoll: 1
-  hasRolledRollChance: 0
   rollChance: 10
   rollSpeed: 15
   rollDuration: 0.3
   agroArea: {x: 16, y: 4}
-  inCombat: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
   attackCoolDown: 2
-  isFacingRight: 1
-  horizontalDirection: 1
   destinationX: 0
   maxWaitAroundTimer: 3
   baseGravity: 1
@@ -24878,11 +24840,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 30
   speed: 3
-  physicalDamage: 3
-  magicDamage: 0
-  physicalDefence: -20
-  magicDefence: -20
-  holyDefence: -20
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -24894,18 +24851,11 @@ MonoBehaviour:
   canJump: 0
   healthSlider: {fileID: 451023095}
   canRoll: 0
-  hasRolledRollChance: 0
   rollChance: 0
   rollSpeed: 0
   rollDuration: 0
   agroArea: {x: 16, y: 4}
-  inCombat: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
   attackCoolDown: 5
-  isFacingRight: 1
-  horizontalDirection: 1
   destinationX: 0
   maxWaitAroundTimer: 3
   baseGravity: 1

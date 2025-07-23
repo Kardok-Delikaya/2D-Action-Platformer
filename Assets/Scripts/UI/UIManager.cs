@@ -4,14 +4,14 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Bars")]
-    public Slider healthSlider;
-    public Slider manaSlider;
-    public Slider ultimateSlider;
+    [SerializeField] Slider healthSlider;
+    [SerializeField] Slider manaSlider;
+    [SerializeField] Slider ultimateSlider;
 
     [Header("Potion Icons")]
-    public Sprite potionBottle;
-    public Sprite emptyBottle;
-    public Image[] potionIcons;
+    [SerializeField] Sprite potionBottle;
+    [SerializeField] Sprite emptyBottle;
+    [SerializeField] Image[] potionIcons;
 
     public void HandleUIStart(int maxHealth, int maxMana, int maxUltimate, int maxPotion, int health, int mana, int ultimate, int potionCount)
     {

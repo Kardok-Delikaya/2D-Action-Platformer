@@ -4,11 +4,11 @@ using UnityEngine;
 public class Archer : EnemyManager
 {
     [Header("Arrow")]
-    public Projectile arrow;
-    public float stunDuration;
-    public float pushForce;
-    public int horizantalArrowSpeed;
-    public int verticalArrowSpeed;
+    [SerializeField] Projectile arrow;
+    [SerializeField] float stunDuration;
+    [SerializeField] float pushForce;
+    [SerializeField] int horizantalArrowSpeed;
+    [SerializeField] int verticalArrowSpeed;
 
     void Update()
     {

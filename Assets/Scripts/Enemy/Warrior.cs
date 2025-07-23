@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Warrior : EnemyManager
 {
-
     [Header("Attack Zone")]
-    public Transform attackZone;
+    [SerializeField] Transform attackZone;
 
     private void Start()
     {

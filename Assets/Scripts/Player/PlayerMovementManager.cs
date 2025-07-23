@@ -1,5 +1,6 @@
 using ActionPlatformer;
 using System.Collections;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,46 +11,50 @@ public class PlayerMovementManager : MonoBehaviour
 {
     Rigidbody2D rb;
     PlayerManager player;
+    SpriteRenderer sprite;
+    CapsuleCollider2D col2D;
     bool beingPushed;
 
     [Header("Movement")]
-    public float moveSpeed = 10f;
-    public int horizontalDirection = 1;
+    [SerializeField] float moveSpeed = 10f;
+    public int horizontalDirection=1;
     float horizontalMovement;
     float verticalMovement;
 
     [Header("Rolling")]
-    public float rollSpeed = 20f;
-    public float rollDuration = 0.25f;
-    public float rollCoolDown = 1f;
-    public bool isRolling;
+    [SerializeField] float rollSpeed = 20f;
+    [SerializeField] float rollDuration = 0.25f;
+    [SerializeField] float rollCoolDown = 1f;
+    [SerializeField] bool isRolling;
     bool canRoll = true;
 
     [Header("Jump")]
-    public float jumpPower = 20f;
+    [SerializeField] float jumpPower = 18f;
+    public bool canWallJump;
 
     [Header("Ground Check")]
-    public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-    public Vector2 wallCheckSize = new Vector2(0.03f, 0.49f);
-    public LayerMask groundLayer;
+    [SerializeField] Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+    [SerializeField] Vector2 wallCheckSize = new Vector2(0.03f, 0.49f);
+    [SerializeField] LayerMask groundLayer;
 
     [Header("Gravity")]
-    public float baseGravity = 3f;
-    public float maxFallSpeed = 16f;
-    public float fallGravityMult = 4f;
+    [SerializeField] float baseGravity = 3f;
+    [SerializeField] float maxFallSpeed = 18f;
+    [SerializeField] float fallGravityMult = 3f;
 
     [Header("Wall Movement")]
-    public float wallSlideSpeed = 2f;
+    [SerializeField] float wallSlideSpeed = 2f;
+    [SerializeField] Vector2 wallJumpPower = new Vector2(10f, 20f);
     bool isWallSliding;
     bool isWallJumping;
     float wallJumpDirection;
     float wallJumpTime = 0.5f;
-    public Vector2 wallJumpPower = new Vector2(10f, 20f);
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         player = GetComponent<PlayerManager>();
+        sprite=GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -59,9 +64,11 @@ public class PlayerMovementManager : MonoBehaviour
         if (isRolling || player.playerCombat.isStunned || player.isDead || beingPushed)
             return;
 
-
-        //ProcessWallSlide();
-        //ProcessWallJump();
+        if (canWallJump)
+        {
+            ProcessWallSlide();
+            ProcessWallJump();
+        }
 
         if (!isWallJumping)
         {
@@ -126,15 +133,6 @@ public class PlayerMovementManager : MonoBehaviour
 
         rb.linearVelocityX = 0;
         beingPushed =false;
-    }
-
-    public IEnumerator StunCoroutine(float stunDuration)
-    {
-        player.playerCombat.isStunned = true;
-
-        yield return new WaitForSeconds(stunDuration);
-
-        player.playerCombat.isStunned = false;
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -217,16 +215,16 @@ public class PlayerMovementManager : MonoBehaviour
     public void Flip()
     {
         horizontalDirection*=-1;
-        GetComponent<SpriteRenderer>().flipX = horizontalDirection==1 ? false : true;
+        sprite.flipX = horizontalDirection==1 ? false : true;
     }
 
     public bool IsGrounded()
     {
-        return Physics2D.OverlapBox(transform.position + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y/-2, 0), groundCheckSize, 0, groundLayer);
+        return Physics2D.OverlapBox(transform.position + new Vector3(0, col2D.size.y/-2, 0), groundCheckSize, 0, groundLayer);
     }
 
     public bool WallCheck()
     {
-        return Physics2D.OverlapBox(transform.position + new Vector3(GetComponent<CapsuleCollider2D>().size.x/2 * horizontalDirection, 0, 0), wallCheckSize, 0, groundLayer);
+        return Physics2D.OverlapBox(transform.position + new Vector3(col2D.size.x/2 * horizontalDirection, 0, 0), wallCheckSize, 0, groundLayer);
     }
 }

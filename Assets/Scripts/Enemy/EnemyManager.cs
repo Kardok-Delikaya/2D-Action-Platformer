@@ -7,25 +7,26 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Animator))]
 public class EnemyManager : MonoBehaviour
 {
+    SpriteRenderer sprite;
     protected Vector3 startPos;
     protected PlayerManager player;
     protected Rigidbody2D rb;
     protected Animator anim;
 
     [Header("Enemy Stats")]
-    public int maxHealth = 30;
-    public int speed = 3;
+    [SerializeField] int maxHealth = 30;
+    [SerializeField] int speed = 3;
     protected float speedUpTimer;
     int health;
 
     [Header("Enemy Damage")]
-    public float physicalDamage = 3;
-    public float magicDamage = 0;
+    protected float physicalDamage = 3;
+    protected float magicDamage = 0;
 
     [Header("Enemy Defence")]
-    public float physicalDefence;
-    public float magicDefence;
-    public float holyDefence;
+    protected float physicalDefence;
+    protected float magicDefence;
+    protected float holyDefence;
 
     [Header("Enemy Status")]
     public bool isDead;
@@ -39,45 +40,42 @@ public class EnemyManager : MonoBehaviour
     public bool canJump;
 
     [Header("UI")]
-    public Slider healthSlider;
+    [SerializeField] Slider healthSlider;
 
     [Header("Roll")]
-    public bool canRoll;
-    public bool hasRolledRollChance;
-    public float rollChance;
-    public float rollSpeed;
-    public float rollDuration;
+    [SerializeField] bool canRoll;
+    protected bool hasRolledRollChance;
+    [SerializeField] float rollChance;
+    [SerializeField] float rollSpeed;
+    [SerializeField] float rollDuration;
 
     [Header("Agro Settings")]
-    public Vector2 agroArea = new Vector2(16, 4);
-    public bool inCombat;
-    public LayerMask playerLayer;
+    [SerializeField] Vector2 agroArea = new Vector2(16, 4);
+    protected bool inCombat;
+    protected LayerMask playerLayer;
     protected float distanceFromPlayer;
 
     [Header("Attack Timer")]
-    public float attackCoolDown = 5;
+    [SerializeField] protected float attackCoolDown = 5;
     protected float attackTimer;
 
-    [Header("Facing Direction")]
-    public bool isFacingRight = true;
-    public int horizontalDirection = 1;
-
     [Header("Destination")]
-    public float destinationX;
-    public float maxWaitAroundTimer = 3f;
+    [SerializeField] float destinationX;
+    [SerializeField] float maxWaitAroundTimer = 3f;
     protected float waitAroundTimer;
+    protected int horizontalDirection = 1;
 
     [Header("Gravity")]
-    public float baseGravity = 1f;
-    public float maxFallSpeed = 32f;
-    public float fallGravityMult = 2f;
+    [SerializeField] float baseGravity = 1f;
+    [SerializeField] float maxFallSpeed = 32f;
+    [SerializeField] float fallGravityMult = 2f;
 
     [Header("Ground Check")]
-    public float characterLength = 1;
-    public float characterSize = 1;
-    public Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-    public Vector2 groundCheckFrontSize = new Vector2(0.03f, 0.03f);
-    public LayerMask groundLayer;
+    [SerializeField] protected float characterLength = 1;
+    [SerializeField] protected float characterSize = 1;
+    [SerializeField] Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+    [SerializeField] Vector2 groundCheckFrontSize = new Vector2(0.03f, 0.03f);
+    [SerializeField] LayerMask groundLayer;
 
     void Awake()
     {
@@ -86,6 +84,7 @@ public class EnemyManager : MonoBehaviour
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         player = FindAnyObjectByType<PlayerManager>();
     }
 
@@ -119,13 +118,13 @@ public class EnemyManager : MonoBehaviour
         {
             hitDirection = -1;
 
-            if (isFacingRight) Flip();
+            if (horizontalDirection == 1) Flip();
         }
         else
         {
             hitDirection = 1;
 
-            if (!isFacingRight) Flip();
+            if (horizontalDirection == -1) Flip();
         }
 
         //Damage gets caltulated
@@ -221,12 +220,11 @@ public class EnemyManager : MonoBehaviour
         {
             anim.Play("Roll");
             isBeingPushed = true;
-            float dashDirection = isFacingRight ? 1f : -1f;
-
             isInvulnerable = true;
-            rb.linearVelocity = new Vector2(dashDirection * rollSpeed, rb.linearVelocityY);
+            rb.linearVelocity = new Vector2(horizontalDirection * rollSpeed, rb.linearVelocityY);
 
             yield return new WaitForSeconds(rollDuration);
+
             isInvulnerable = false;
             isBeingPushed=false;
             rb.linearVelocityX = 0;
@@ -248,11 +246,11 @@ public class EnemyManager : MonoBehaviour
         {
             if (transform.position.x - destinationX >= 0)
             {
-                if (isFacingRight) Flip();
+                if (horizontalDirection==1) Flip();
             }
             else
             {
-                if (!isFacingRight) Flip();
+                if (horizontalDirection == -1) Flip();
             }
 
             rb.linearVelocityX = speed * horizontalDirection;
@@ -311,19 +309,18 @@ public class EnemyManager : MonoBehaviour
     {
         if (transform.position.x - player.transform.position.x >= 0)
         {
-            if (isFacingRight) Flip();
+            if (horizontalDirection==1) Flip();
         }
         else
         {
-            if (!isFacingRight) Flip();
+            if (horizontalDirection == -1) Flip();
         }
     }
 
     public void Flip()
     {
-        isFacingRight = !isFacingRight;
-        GetComponent<SpriteRenderer>().flipX = !isFacingRight;
-        horizontalDirection = isFacingRight ? 1 : -1;
+        horizontalDirection *= -1;
+        sprite.flipX = horizontalDirection == 1 ? false : true;
     }
 
     public void HandleGravity()

@@ -9,11 +9,11 @@ public class PlayerManager : MonoBehaviour
     public bool isDead;
     public bool isInteracting;
 
-    public UIManager uiManager;
-    public PlayerSkillTree skillTree;
-    public PlayerMovementManager playerMovement;
-    public PlayerCombatManager playerCombat;
-    public PlayerAnimationManager playerAnimation;
+    public UIManager uiManager { get; private set; }
+    public PlayerSkillTree skillTree { get; private set; }
+    public PlayerMovementManager playerMovement { get; private set; }
+    public PlayerCombatManager playerCombat { get; private set; }
+    public PlayerAnimationManager playerAnimation { get; private set; }
 
     private void Awake()
     {
