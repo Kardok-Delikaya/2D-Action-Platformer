@@ -1,7 +1,4 @@
-using ActionPlatformer;
 using System.Collections;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -48,10 +45,10 @@ public class PlayerMovementManager : MonoBehaviour
     bool isWallSliding;
     bool isWallJumping;
     float wallJumpDirection;
-    float wallJumpTime = 0.5f;
 
     void Awake()
     {
+        col2D=GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         player = GetComponent<PlayerManager>();
         sprite=GetComponent<SpriteRenderer>();
@@ -165,7 +162,7 @@ public class PlayerMovementManager : MonoBehaviour
                 Flip();
             }
 
-            Invoke(nameof(CancelWallJump), wallJumpTime + 0.1f);
+            Invoke(nameof(CancelWallJump), 0.5f);
         }
     }
 

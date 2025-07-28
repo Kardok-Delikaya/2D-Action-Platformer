@@ -1,5 +1,3 @@
-using ActionPlatformer;
-using NUnit.Framework.Internal;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -138,9 +136,6 @@ public class PlayerCombatManager : MonoBehaviour
 
         if (currentHealth > 0)
         {
-            FindAnyObjectByType<HitStop>().HitStopEffect(.2f);
-            StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(2, .2f));
-
             if (pushForce > 0)
                 StartCoroutine(player.playerMovement.PushBackCoroutine(Mathf.RoundToInt(-pushForce * hitDirection)));
 
@@ -154,6 +149,9 @@ public class PlayerCombatManager : MonoBehaviour
         }
 
         player.uiManager.UpdateHealthSlider(currentHealth);
+
+        FindAnyObjectByType<HitStop>().HitStopEffect(.2f);
+        StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(2, .2f));
     }
 
     void Die()

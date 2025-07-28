@@ -862,12 +862,12 @@ MonoBehaviour:
   canDoParry: 1
   moreParryLength: 0
   lessDamageWhileBlocking: 0
-  stunningAfterBlack: 0
+  stunningAfterBlock: 0
   damageBoostAfterParry: 0
   stunnedEnemiesGetsMoreDamage: 0
   canDoCounterAttack: 0
   canDoKickAttackAfterRoll: 0
-  canMakeFlyingEnemiesFallToGroundWhileAttackingInAir: 0
+  canMakeFlyingEnemiesFallToGroundWhileHeavyAttackingInAir: 0
   deadEnemiesDropsMoreLoot: 0
   afterParryPushEnemies: 0
   magicStunnsEnemies: 0
@@ -1340,6 +1340,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 80
   speed: 7
+  physicalDamage: 5
+  magicDamage: 10
+  physicalDefence: 0
+  magicDefence: 0
+  holyDefence: 0
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -1355,8 +1360,12 @@ MonoBehaviour:
   rollSpeed: 0
   rollDuration: 0
   agroArea: {x: 0, y: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
   attackCoolDown: 2
   destinationX: 0
+  horizontalDirection: 1
   maxWaitAroundTimer: 3
   baseGravity: 1
   maxFallSpeed: 32
@@ -4441,6 +4450,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 70
   speed: 3
+  physicalDamage: 10
+  magicDamage: 15
+  physicalDefence: 0
+  magicDefence: 0
+  holyDefence: 0
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -4456,8 +4470,12 @@ MonoBehaviour:
   rollSpeed: 15
   rollDuration: 0.3
   agroArea: {x: 16, y: 4}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
   attackCoolDown: 3
   destinationX: 0
+  horizontalDirection: -1
   maxWaitAroundTimer: 3
   baseGravity: 1
   maxFallSpeed: 32
@@ -23864,6 +23882,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   speed: 7
+  physicalDamage: 30
+  magicDamage: 0
+  physicalDefence: 0
+  magicDefence: 0
+  holyDefence: 0
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -23879,8 +23902,12 @@ MonoBehaviour:
   rollSpeed: 15
   rollDuration: 0.3
   agroArea: {x: 16, y: 4}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
   attackCoolDown: 2
   destinationX: 0
+  horizontalDirection: 1
   maxWaitAroundTimer: 3
   baseGravity: 1
   maxFallSpeed: 32
@@ -24840,6 +24867,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 30
   speed: 3
+  physicalDamage: 0
+  magicDamage: 30
+  physicalDefence: 0
+  magicDefence: 0
+  holyDefence: 0
   isDead: 0
   isAttacking: 0
   isStunned: 0
@@ -24854,9 +24886,13 @@ MonoBehaviour:
   rollChance: 0
   rollSpeed: 0
   rollDuration: 0
-  agroArea: {x: 16, y: 4}
+  agroArea: {x: 16, y: 16}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
   attackCoolDown: 5
   destinationX: 0
+  horizontalDirection: 1
   maxWaitAroundTimer: 3
   baseGravity: 1
   maxFallSpeed: 32
@@ -24867,7 +24903,7 @@ MonoBehaviour:
   groundCheckFrontSize: {x: 0.03, y: 0.03}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
 --- !u!1 &1911698086
 GameObject:
   m_ObjectHideFlags: 0

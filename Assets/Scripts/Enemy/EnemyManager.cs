@@ -1,10 +1,10 @@
-using ActionPlatformer;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+
 public class EnemyManager : MonoBehaviour
 {
     SpriteRenderer sprite;
@@ -15,18 +15,18 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Enemy Stats")]
     [SerializeField] int maxHealth = 30;
-    [SerializeField] int speed = 3;
+    [SerializeField] int speed = 5;
     protected float speedUpTimer;
     int health;
 
     [Header("Enemy Damage")]
-    protected float physicalDamage = 3;
-    protected float magicDamage = 0;
+    [SerializeField] protected float physicalDamage = 3;
+    [SerializeField] protected float magicDamage = 0;
 
     [Header("Enemy Defence")]
-    protected float physicalDefence;
-    protected float magicDefence;
-    protected float holyDefence;
+    [SerializeField] protected float physicalDefence;
+    [SerializeField] protected float magicDefence;
+    [SerializeField] protected float holyDefence;
 
     [Header("Enemy Status")]
     public bool isDead;
@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour
     [Header("Agro Settings")]
     [SerializeField] Vector2 agroArea = new Vector2(16, 4);
     protected bool inCombat;
-    protected LayerMask playerLayer;
+    [SerializeField] protected LayerMask playerLayer;
     protected float distanceFromPlayer;
 
     [Header("Attack Timer")]
@@ -61,9 +61,9 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Destination")]
     [SerializeField] float destinationX;
+    [SerializeField] protected int horizontalDirection = 1;
     [SerializeField] float maxWaitAroundTimer = 3f;
     protected float waitAroundTimer;
-    protected int horizontalDirection = 1;
 
     [Header("Gravity")]
     [SerializeField] float baseGravity = 1f;
@@ -88,7 +88,7 @@ public class EnemyManager : MonoBehaviour
         player = FindAnyObjectByType<PlayerManager>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         anim.SetFloat("VelocityX", rb.linearVelocityX);
     }

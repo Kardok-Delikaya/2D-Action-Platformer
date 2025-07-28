@@ -1,27 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-namespace ActionPlatformer
+public class HitStop : MonoBehaviour
 {
-    public class HitStop : MonoBehaviour
+    bool isWaiting;
+
+    public void HitStopEffect(float duration)
     {
-        bool isWaiting;
- 
-        public void HitStopEffect(float duration)
-        {
-            if(isWaiting)
-                return;
+        if (isWaiting)
+            return;
 
-            isWaiting = true;
-            StartCoroutine(HitStopCoroutine(duration));
-        }
+        isWaiting = true;
+        StartCoroutine(HitStopCoroutine(duration));
+    }
 
-        private IEnumerator HitStopCoroutine(float duration)
-        {
-            Time.timeScale = 0;
-            yield return new WaitForSecondsRealtime(duration);
-            Time.timeScale = 1.0f;
-            isWaiting=false;
-        }
+    private IEnumerator HitStopCoroutine(float duration)
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = 1.0f;
+        isWaiting = false;
     }
 }
