@@ -860,26 +860,6 @@ MonoBehaviour:
   characterLevel: 1
   armorLevel: 0
   canDoParry: 1
-  moreParryLength: 0
-  lessDamageWhileBlocking: 0
-  stunningAfterBlock: 0
-  damageBoostAfterParry: 0
-  stunnedEnemiesGetsMoreDamage: 0
-  canDoCounterAttack: 0
-  canDoKickAttackAfterRoll: 0
-  canMakeFlyingEnemiesFallToGroundWhileHeavyAttackingInAir: 0
-  deadEnemiesDropsMoreLoot: 0
-  afterParryPushEnemies: 0
-  magicStunnsEnemies: 0
-  magicJumpsFromEnemyToEnemy: 0
-  enemiesThatKilledByMagicDropsManaOrbs: 0
-  afterMagicAddMagicDamageToWeapon: 0
-  afterMagicFirstBlockSendsDamageBackToEnemy: 0
-  weaponSendsLightRays: 0
-  takingDamageWhileBlockingSendEnemiesDamageRays: 0
-  rollingDealDamagesToEnemies: 0
-  healWhenDealLightDamageAndRegainManaWhenHealed: 0
-  dealMagicDamageToBothWaysAndLonger: 0
 --- !u!114 &105303667
 MonoBehaviour:
   m_ObjectHideFlags: 0

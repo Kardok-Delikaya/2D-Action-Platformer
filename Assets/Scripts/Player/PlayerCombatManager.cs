@@ -22,8 +22,8 @@ public class PlayerCombatManager : MonoBehaviour
     [SerializeField] float blockDefence;
 
     [Header("Player Damage")]
-    [SerializeField] float physicalDamageMultiplier=1;
-    [SerializeField] float magicDamageMultiplier=1;
+    [SerializeField] float physicalDamageMultiplier = 1;
+    [SerializeField] float magicDamageMultiplier = 1;
     [SerializeField] float holyDamageMultiplier = 1;
 
     [Header("Attack Zones")]
@@ -84,14 +84,14 @@ public class PlayerCombatManager : MonoBehaviour
         {
             for (int i = 0; i < enemies.Length; i++)
                 enemies[i].GetComponent<EnemyManager>().GetHit(currentAttackAction.physicalDamage * physicalDamageMultiplier,
-                    currentAttackAction.magicDamage * magicDamageMultiplier, currentAttackAction.holyDamage * holyDamageMultiplier, 
+                    currentAttackAction.magicDamage * magicDamageMultiplier, currentAttackAction.holyDamage * holyDamageMultiplier,
                     transform.position.x, currentAttackAction.stunDuration, currentAttackAction.pushForce);
         }
     }
 
-    public void GetHit(float physicalDamage, float magicDamage, float hitDirection, float stunDuration=0, float pushForce = 0)
+    public void GetHit(float physicalDamage, float magicDamage, float hitDirection, float stunDuration = 0, float pushForce = 0)
     {
-        if (isInvulnerable)
+        if (isInvulnerable || player.isDead)
             return;
 
         if (isBlocking)
@@ -103,13 +103,13 @@ public class PlayerCombatManager : MonoBehaviour
         {
             hitDirection = -1;
 
-            if (player.playerMovement.horizontalDirection==1) player.playerMovement.Flip();
+            if (player.playerMovement.horizontalDirection == 1) player.playerMovement.Flip();
         }
         else
         {
             hitDirection = 1;
 
-            if (player.playerMovement.horizontalDirection==-1) player.playerMovement.Flip();
+            if (player.playerMovement.horizontalDirection == -1) player.playerMovement.Flip();
         }
 
         if (parryTimer > 0 && hitDirection == player.playerMovement.horizontalDirection)
@@ -130,7 +130,7 @@ public class PlayerCombatManager : MonoBehaviour
 
         float finalDamage = finalPhysicalDamage + finalMagicDamage;
 
-        if (isBlocking && hitDirection == player.playerMovement.horizontalDirection) finalDamage *= player.skillTree.lessDamageWhileBlocking == true ? (blockDefence + 10) / 100 : blockDefence / 100;
+        if (isBlocking && hitDirection == player.playerMovement.horizontalDirection) finalDamage *= 1 - blockDefence / 100;
 
         currentHealth -= Mathf.RoundToInt(finalDamage);
 
@@ -144,7 +144,7 @@ public class PlayerCombatManager : MonoBehaviour
         }
         else
         {
-            currentHealth=0;
+            currentHealth = 0;
             Die();
         }
 
@@ -158,7 +158,7 @@ public class PlayerCombatManager : MonoBehaviour
     {
         player.isDead = true;
         player.isInteracting = true;
-        player.playerAnimation.PlayAnimation("Die");
+        player.playerAnimation.PlayAnimation("Death");
     }
 
     #region Handle Actions
@@ -190,12 +190,12 @@ public class PlayerCombatManager : MonoBehaviour
                 player.playerAnimation.PlayAnimation(currentAttackAction.attackAnimation);
 
             }
-            else if (comboTimer>0 && lastAttack==lightAttack01)
+            else if (comboTimer > 0 && lastAttack == lightAttack01)
             {
                 currentAttackAction = lightAttack02;
                 player.playerAnimation.PlayAnimation(currentAttackAction.attackAnimation);
             }
-            else if (comboTimer > 0 && lastAttack==lightAttack02)
+            else if (comboTimer > 0 && lastAttack == lightAttack02)
             {
                 currentAttackAction = lightAttack03;
                 player.playerAnimation.PlayAnimation(currentAttackAction.attackAnimation);
@@ -215,7 +215,7 @@ public class PlayerCombatManager : MonoBehaviour
                 currentAttackAction = heavyAttack01;
                 player.playerAnimation.PlayAnimation(currentAttackAction.attackAnimation);
             }
-            else if (comboTimer > 0 && lastAttack==heavyAttack01)
+            else if (comboTimer > 0 && lastAttack == heavyAttack01)
             {
                 currentAttackAction = heavyAttack02;
                 player.playerAnimation.PlayAnimation(currentAttackAction.attackAnimation);
@@ -269,7 +269,7 @@ public class PlayerCombatManager : MonoBehaviour
         isBlocking = true;
 
         if (player.skillTree.canDoParry)
-            parryTimer = player.skillTree.moreParryLength == true ? maxParryTimer * 2 : maxParryTimer;
+            parryTimer = maxParryTimer;
     }
 
     public void SetIsBlockingFalse()

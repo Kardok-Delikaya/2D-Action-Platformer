@@ -16,5 +16,5 @@ MonoBehaviour:
   physicalDamage: 0
   magicDamage: 30
   holyDamage: 0
-  stunDuration: 3
+  stunDuration: 1
   pushForce: 0
