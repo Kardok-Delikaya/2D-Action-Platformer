@@ -51,8 +51,7 @@ MonoBehaviour:
   magicDamage: 0
   stunDuration: 0
   pushForce: 0
-  horizantalVel: 5
-  verticalVel: 0
+  moveVelocity: {x: 5, y: 0}
 --- !u!212 &905545657967905453
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -169,7 +168,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

@@ -12,7 +12,7 @@ public class Archer : EnemyManager
 
     void Update()
     {
-        if (isDead || isBeingPushed) return;
+        if (isDead || isBeingPushed || isStunned) return;
 
         if (!inCombat)
         {

@@ -4,7 +4,7 @@ public class Crawler : EnemyManager
 {
     private void Update()
     {
-        if (isDead || isBeingPushed) return;
+        if (isDead || isBeingPushed || isStunned) return;
 
         if (IsGrounded())
         {

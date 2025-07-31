@@ -96,9 +96,6 @@ public class EnemyManager : MonoBehaviour
     #region Combat
     public void CheckForEnemy()
     {
-        if (inCombat)
-            return;
-
         Collider2D playerCollider;
         playerCollider = Physics2D.OverlapBox(new Vector2(transform.position.x + horizontalDirection * agroArea.x / 2, transform.position.y + agroArea.y / 2), agroArea, 0, playerLayer);
 
@@ -239,7 +236,6 @@ public class EnemyManager : MonoBehaviour
     #region Movement
     public void MoveAroundThePlatform()
     {
-        anim.Play("Walk");
         CheckForEnemy();
 
         if (Mathf.Abs(transform.position.x - destinationX) > .3f || !WillBeGrounded() || WillTouchWall())
@@ -254,6 +250,7 @@ public class EnemyManager : MonoBehaviour
             }
 
             rb.linearVelocityX = speed * horizontalDirection;
+            anim.Play("Walk");
         }
         else
         {
@@ -277,7 +274,10 @@ public class EnemyManager : MonoBehaviour
 
     public void MoveToPlayer()
     {
-        if (!WillBeGrounded() || WillTouchWall() || attackTimer > 0)
+        distanceFromPlayer = Vector2.Distance(player.transform.position, transform.position);
+        FaceToPlayer();
+
+        if (!WillBeGrounded() || WillTouchWall() || distanceFromPlayer<1.5f || isAttacking)
         {
             rb.linearVelocityX = 0;
             return;

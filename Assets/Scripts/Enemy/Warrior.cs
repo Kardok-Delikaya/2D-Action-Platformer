@@ -14,20 +14,18 @@ public class Warrior : EnemyManager
 
     void Update()
     {
-        if (isDead||isBeingPushed) return;
+        if (isDead||isBeingPushed||isStunned) return;
 
         if (inCombat)
         {
-            distanceFromPlayer = Vector2.Distance(player.transform.position, transform.position);
+            if (attackTimer > 0)
+            {
+                attackTimer -= Time.deltaTime;
+                return;
+            }
 
             MoveToPlayer();
-
             AttackToPlayer();
-
-            if(attackTimer > 0) 
-                return;
-
-            FaceToPlayer();
 
             if (player.playerCombat.isAttacking && distanceFromPlayer < 5 && !hasRolledRollChance)
             {
@@ -43,12 +41,6 @@ public class Warrior : EnemyManager
 
     void AttackToPlayer()
     {
-        if (attackTimer > 0)
-        {
-            attackTimer -= Time.deltaTime;
-            return;
-        }
-
         if (distanceFromPlayer < 1.5f)
         {
             attackZone.localPosition = new Vector3(horizontalDirection * Mathf.Abs(attackZone.localPosition.x), attackZone.localPosition.y);
