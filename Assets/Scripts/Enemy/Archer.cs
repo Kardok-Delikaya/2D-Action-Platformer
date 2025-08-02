@@ -4,7 +4,8 @@ using UnityEngine;
 public class Archer : EnemyManager
 {
     [Header("Arrow")]
-    [SerializeField] Projectile arrow;
+    [SerializeField] GameObject arrow;
+    [SerializeField] Transform arrowSpawnPos;
     [SerializeField] float stunDuration;
     [SerializeField] float pushForce;
     [SerializeField] int horizantalArrowSpeed;
@@ -50,13 +51,12 @@ public class Archer : EnemyManager
     {
         if (!isStunned)
         {
-            arrow.gameObject.SetActive(true);
-            arrow.transform.position = new Vector2(transform.position.x + horizontalDirection * characterSize / 2, transform.position.y);
-            arrow.physicalDamage = physicalDamage;
-            arrow.magicDamage = magicDamage;
-            arrow.stunDuration = stunDuration;
-            arrow.pushForce = pushForce;
-            arrow.moveVelocity = new Vector2(horizantalArrowSpeed * horizontalDirection, verticalArrowSpeed);
+            Projectile throwedArrow = Instantiate(arrow, arrowSpawnPos).GetComponent<Projectile>();
+            throwedArrow.physicalDamage = physicalDamage;
+            throwedArrow.magicDamage = magicDamage;
+            throwedArrow.stunDuration = stunDuration;
+            throwedArrow.pushForce = pushForce;
+            throwedArrow.moveVelocity = new Vector2(horizantalArrowSpeed * horizontalDirection, verticalArrowSpeed);
             isAttacking = false;
         }
     }

@@ -16,7 +16,6 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
     }
 
     void Update()
@@ -31,6 +30,6 @@ public class Projectile : MonoBehaviour
             collision.GetComponent<PlayerCombatManager>().GetHit(physicalDamage, magicDamage, transform.position.x, stunDuration, pushForce);
         }
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

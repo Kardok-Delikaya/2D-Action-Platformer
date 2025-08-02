@@ -177,7 +177,7 @@ public class EnemyManager : MonoBehaviour
         isDead = true;
         inCombat = false;
         anim.Play("Die");
-        Invoke("Revive",5f);
+        //Invoke("Revive",5f);
     }
 
     public virtual void Revive()

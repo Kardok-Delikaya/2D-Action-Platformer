@@ -14,7 +14,7 @@ public class PlayerMovementManager : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float moveSpeed = 10f;
-    public int horizontalDirection=1;
+    public int horizontalDirection = 1;
     float horizontalMovement;
     float verticalMovement;
 
@@ -48,10 +48,10 @@ public class PlayerMovementManager : MonoBehaviour
 
     void Awake()
     {
-        col2D=GetComponent<CapsuleCollider2D>();
+        col2D = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         player = GetComponent<PlayerManager>();
-        sprite=GetComponent<SpriteRenderer>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -77,7 +77,7 @@ public class PlayerMovementManager : MonoBehaviour
             {
                 rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocityY);
 
-                if (horizontalDirection==1 && horizontalMovement < 0 || horizontalDirection == -1 && horizontalMovement > 0)
+                if (horizontalDirection == 1 && horizontalMovement < 0 || horizontalDirection == -1 && horizontalMovement > 0)
                 {
                     Flip();
                 }
@@ -129,7 +129,7 @@ public class PlayerMovementManager : MonoBehaviour
         yield return new WaitForSeconds(.2f);
 
         rb.linearVelocityX = 0;
-        beingPushed =false;
+        beingPushed = false;
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -211,17 +211,17 @@ public class PlayerMovementManager : MonoBehaviour
 
     public void Flip()
     {
-        horizontalDirection*=-1;
-        sprite.flipX = horizontalDirection==1 ? false : true;
+        horizontalDirection *= -1;
+        sprite.flipX = horizontalDirection == 1 ? false : true;
     }
 
     public bool IsGrounded()
     {
-        return Physics2D.OverlapBox(transform.position + new Vector3(0, col2D.size.y/-2, 0), groundCheckSize, 0, groundLayer);
+        return Physics2D.OverlapBox(transform.position + new Vector3(0, col2D.size.y / -2, 0), groundCheckSize, 0, groundLayer);
     }
 
     public bool WallCheck()
     {
-        return Physics2D.OverlapBox(transform.position + new Vector3(col2D.size.x/2 * horizontalDirection, 0, 0), wallCheckSize, 0, groundLayer);
+        return Physics2D.OverlapBox(transform.position + new Vector3(col2D.size.x / 2 * horizontalDirection, 0, 0), wallCheckSize, 0, groundLayer);
     }
 }
