@@ -10,7 +10,6 @@ public class PlayerMovementManager : MonoBehaviour
     PlayerManager player;
     SpriteRenderer sprite;
     CapsuleCollider2D col2D;
-    bool beingPushed;
 
     [Header("Movement")]
     [SerializeField] float moveSpeed = 10f;
@@ -21,9 +20,7 @@ public class PlayerMovementManager : MonoBehaviour
     [Header("Rolling")]
     [SerializeField] float rollSpeed = 20f;
     [SerializeField] float rollDuration = 0.25f;
-    [SerializeField] float rollCoolDown = 1f;
     [SerializeField] bool isRolling;
-    bool canRoll = true;
 
     [Header("Jump")]
     [SerializeField] float jumpPower = 18f;
@@ -58,7 +55,12 @@ public class PlayerMovementManager : MonoBehaviour
     {
         ProcessGravity();
 
-        if (isRolling || player.playerCombat.isStunned || player.isDead || beingPushed)
+        if (player.playerCombat.isAttacking)
+        {
+            rb.linearVelocityX = 0;
+        }
+
+        if (player.isInteracting)
             return;
 
         if (canWallJump)
@@ -69,18 +71,11 @@ public class PlayerMovementManager : MonoBehaviour
 
         if (!isWallJumping)
         {
-            if (player.playerCombat.isAttacking)
-            {
-                rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
-            }
-            else
-            {
-                rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocityY);
+            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocityY);
 
-                if (horizontalDirection == 1 && horizontalMovement < 0 || horizontalDirection == -1 && horizontalMovement > 0)
-                {
-                    Flip();
-                }
+            if (horizontalDirection == 1 && horizontalMovement < 0 || horizontalDirection == -1 && horizontalMovement > 0)
+            {
+                Flip();
             }
         }
     }
@@ -96,7 +91,7 @@ public class PlayerMovementManager : MonoBehaviour
         if (player.isInteracting)
             return;
 
-        if (context.performed && canRoll && IsGrounded())
+        if (context.performed && IsGrounded())
         {
             StartCoroutine(RollCoroutine());
             StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(1, .05f));
@@ -105,8 +100,6 @@ public class PlayerMovementManager : MonoBehaviour
 
     private IEnumerator RollCoroutine()
     {
-        canRoll = false;
-        isRolling = true;
         player.playerAnimation.PlayAnimation("Roll");
 
 
@@ -115,21 +108,17 @@ public class PlayerMovementManager : MonoBehaviour
         yield return new WaitForSeconds(rollDuration);
 
         rb.linearVelocityX /= 2;
-        isRolling = false;
-
-        yield return new WaitForSeconds(rollCoolDown);
-        canRoll = true;
     }
 
     public IEnumerator PushBackCoroutine(int pushForce)
     {
-        beingPushed = true;
+        player.isInteracting = true;
         rb.linearVelocityX = pushForce;
 
         yield return new WaitForSeconds(.2f);
 
         rb.linearVelocityX = 0;
-        beingPushed = false;
+        player.isInteracting = false;
     }
 
     public void Jump(InputAction.CallbackContext context)
