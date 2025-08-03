@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerSkillTree))]
 [RequireComponent(typeof(PlayerMovementManager))]
@@ -22,5 +24,13 @@ public class PlayerManager : MonoBehaviour
         playerMovement = GetComponent<PlayerMovementManager>();
         playerCombat = GetComponent<PlayerCombatManager>();
         playerAnimation = GetComponent<PlayerAnimationManager>();
+    }
+
+    public void HandleRestartScene(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (isDead) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }
