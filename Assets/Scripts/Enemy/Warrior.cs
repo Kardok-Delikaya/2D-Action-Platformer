@@ -5,14 +5,15 @@ using UnityEngine;
 public class Warrior : EnemyManager
 {
     [Header("Attack Zone")]
-    [SerializeField] Transform attackZone;
+    [SerializeField]
+    private Transform attackZone;
 
     private void Start()
     {
         SelectRandomDestination();
     }
 
-    void Update()
+    private void Update()
     {
         if (isDead||isBeingPushed||isStunned) return;
 
@@ -39,7 +40,7 @@ public class Warrior : EnemyManager
         }
     }
 
-    void AttackToPlayer()
+    private void AttackToPlayer()
     {
         if (distanceFromPlayer < 1.5f)
         {

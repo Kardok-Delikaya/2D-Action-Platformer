@@ -5,8 +5,8 @@ using System.Collections;
 public class HitStop : MonoBehaviour
 {
     public static HitStop Instance;
-    
-    bool isWaiting;
+
+    private bool isWaiting;
 
     private void Awake()
     {

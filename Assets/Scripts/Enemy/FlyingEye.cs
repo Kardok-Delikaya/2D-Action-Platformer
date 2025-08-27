@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FlyingEye : EnemyManager
 {
-    void Update()
+    private void Update()
     {
         rb.linearVelocityY = 0;
     }

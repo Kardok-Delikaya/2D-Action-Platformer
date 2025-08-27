@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ResetPlayerAnimationBools : StateMachineBehaviour
 {
-    PlayerManager player;
+    private PlayerManager player;
 
     private void Awake()
     {

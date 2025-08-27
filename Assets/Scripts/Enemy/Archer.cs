@@ -4,14 +4,15 @@ using UnityEngine;
 public class Archer : EnemyManager
 {
     [Header("Arrow")]
-    [SerializeField] GameObject arrow;
-    [SerializeField] Transform arrowSpawnPos;
-    [SerializeField] float stunDuration;
-    [SerializeField] float pushForce;
-    [SerializeField] int horizantalArrowSpeed;
-    [SerializeField] int verticalArrowSpeed;
+    [SerializeField]
+    private GameObject arrow;
+    [SerializeField] private Transform arrowSpawnPos;
+    [SerializeField] private float stunDuration;
+    [SerializeField] private float pushForce;
+    [SerializeField] private int horizantalArrowSpeed;
+    [SerializeField] private int verticalArrowSpeed;
 
-    void Update()
+    private void Update()
     {
         if (isDead || isBeingPushed || isStunned) return;
 
@@ -47,7 +48,7 @@ public class Archer : EnemyManager
         }
     }
 
-    void ReleaseArrow()
+    private void ReleaseArrow()
     {
         if (!isStunned)
         {

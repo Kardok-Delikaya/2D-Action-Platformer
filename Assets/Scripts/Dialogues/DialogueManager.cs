@@ -7,28 +7,28 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    PlayerManager player;
+    private PlayerManager player;
 
     public static DialogueManager Instance;
 
-    [SerializeField] GameObject dialoguePanel;
-    [SerializeField] Image playerIcon;
-    [SerializeField] Image npcIcon;
-    [SerializeField] GameObject playerNameParentObject;
-    [SerializeField] GameObject npcParentObject;
-    [SerializeField] TMP_Text npcName;
-    [SerializeField] TMP_Text dialogueArea;
+    [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private Image playerIcon;
+    [SerializeField] private Image npcIcon;
+    [SerializeField] private GameObject playerNameParentObject;
+    [SerializeField] private GameObject npcParentObject;
+    [SerializeField] private TMP_Text npcName;
+    [SerializeField] private TMP_Text dialogueArea;
 
     private Queue<DialogueLine> lines = new Queue<DialogueLine>();
 
     public bool isDialogueActive = false;
-    bool isTypingDialogue = false;
-    [SerializeField] float typingSpeed = .02f;
+    private bool isTypingDialogue = false;
+    [SerializeField] private float typingSpeed = .02f;
 
-    string currentTalkingCharacter;
-    DialogueLine currentLine;
+    private string currentTalkingCharacter;
+    private DialogueLine currentLine;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -96,7 +96,7 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(TypeSentence(currentLine));
     }
 
-    IEnumerator TypeSentence(DialogueLine dialogueLine)
+    private IEnumerator TypeSentence(DialogueLine dialogueLine)
     {
         dialogueArea.text = "";
         isTypingDialogue = true;
@@ -112,7 +112,7 @@ public class DialogueManager : MonoBehaviour
         DisplayNextDialogueLine();
     }
 
-    void EndDialogue()
+    private void EndDialogue()
     {
         isDialogueActive = false;
         npcIcon.enabled = false;

@@ -7,14 +7,16 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     
     [Header("Bars")]
-    [SerializeField] Slider healthSlider;
-    [SerializeField] Slider manaSlider;
-    [SerializeField] Slider ultimateSlider;
+    [SerializeField]
+    private Slider healthSlider;
+    [SerializeField] private Slider manaSlider;
+    [SerializeField] private Slider ultimateSlider;
 
     [Header("Potion Icons")]
-    [SerializeField] Sprite potionBottle;
-    [SerializeField] Sprite emptyBottle;
-    [SerializeField] Image[] potionIcons;
+    [SerializeField]
+    private Sprite potionBottle;
+    [SerializeField] private Sprite emptyBottle;
+    [SerializeField] private Image[] potionIcons;
 
     private void Awake()
     {

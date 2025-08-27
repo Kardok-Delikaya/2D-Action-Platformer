@@ -367,7 +367,7 @@ MonoBehaviour:
   rollChance: 10
   rollSpeed: 15
   rollDuration: 0.3
-  agroArea: {x: 16, y: 4}
+  agroArea: {x: 16, y: 1}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64

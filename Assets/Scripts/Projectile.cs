@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     [Header("Projectile")]
     public float physicalDamage = 5;
@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
         rb.linearVelocity = moveVelocity;
     }

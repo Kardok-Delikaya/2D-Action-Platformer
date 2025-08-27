@@ -1,23 +1,25 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Mathf;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 
 public class EnemyManager : MonoBehaviour
 {
-    SpriteRenderer sprite;
-    protected Vector3 startPos;
+    private SpriteRenderer sprite;
+    private Vector3 startPos;
     protected PlayerManager player;
     protected Rigidbody2D rb;
     protected Animator anim;
 
     [Header("Enemy Stats")]
-    [SerializeField] int maxHealth = 30;
-    [SerializeField] int speed = 5;
+    [SerializeField]
+    private int maxHealth = 30;
+    [SerializeField] private int speed = 5;
     protected float speedUpTimer;
-    int health;
+    private int health;
 
     [Header("Enemy Damage")]
     [SerializeField] protected float physicalDamage = 3;
@@ -40,17 +42,20 @@ public class EnemyManager : MonoBehaviour
     public bool canJump;
 
     [Header("UI")]
-    [SerializeField] Slider healthSlider;
+    [SerializeField]
+    private Slider healthSlider;
 
     [Header("Roll")]
-    [SerializeField] bool canRoll;
+    [SerializeField]
+    private bool canRoll;
     protected bool hasRolledRollChance;
-    [SerializeField] float rollChance;
-    [SerializeField] float rollSpeed;
-    [SerializeField] float rollDuration;
+    [SerializeField] private float rollChance;
+    [SerializeField] private float rollSpeed;
+    [SerializeField] private float rollDuration;
 
     [Header("Agro Settings")]
-    [SerializeField] Vector2 agroArea = new Vector2(16, 4);
+    [SerializeField]
+    private Vector2 agroArea = new Vector2(16, 4);
     protected bool inCombat;
     [SerializeField] protected LayerMask playerLayer;
     protected float distanceFromPlayer;
@@ -60,24 +65,26 @@ public class EnemyManager : MonoBehaviour
     protected float attackTimer;
 
     [Header("Destination")]
-    [SerializeField] float destinationX;
+    [SerializeField]
+    private float destinationX;
     [SerializeField] protected int horizontalDirection = 1;
-    [SerializeField] float maxWaitAroundTimer = 3f;
-    protected float waitAroundTimer;
+    [SerializeField] private float maxWaitAroundTimer = 3f;
+    private float waitAroundTimer;
 
     [Header("Gravity")]
-    [SerializeField] float baseGravity = 1f;
-    [SerializeField] float maxFallSpeed = 32f;
-    [SerializeField] float fallGravityMult = 2f;
+    [SerializeField]
+    private float baseGravity = 1f;
+    [SerializeField] private float maxFallSpeed = 32f;
+    [SerializeField] private float fallGravityMult = 2f;
 
     [Header("Ground Check")]
     [SerializeField] protected float characterLength = 1;
     [SerializeField] protected float characterSize = 1;
-    [SerializeField] Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-    [SerializeField] Vector2 groundCheckFrontSize = new Vector2(0.03f, 0.03f);
-    [SerializeField] LayerMask groundLayer;
+    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+    [SerializeField] private Vector2 groundCheckFrontSize = new Vector2(0.03f, 0.03f);
+    [SerializeField] private LayerMask groundLayer;
 
-    void Awake()
+    private void Awake()
     {
         health = maxHealth;
         SetMaxHealthSliderValue();
@@ -94,10 +101,10 @@ public class EnemyManager : MonoBehaviour
     }
 
     #region Combat
-    public void CheckForEnemy()
+
+    protected void CheckForEnemy()
     {
-        Collider2D playerCollider;
-        playerCollider = Physics2D.OverlapBox(new Vector2(transform.position.x + horizontalDirection * agroArea.x / 2, transform.position.y + agroArea.y / 2), agroArea, 0, playerLayer);
+        Collider2D playerCollider = Physics2D.OverlapBox(new Vector2(transform.position.x + horizontalDirection * agroArea.x / 2, transform.position.y + agroArea.y / 2), agroArea, 0, playerLayer);
 
         if (playerCollider != null)
         {
@@ -110,7 +117,6 @@ public class EnemyManager : MonoBehaviour
         if (isInvulnerable || isDead)
             return;
 
-        //Turns to damage direction
         if (transform.position.x - hitDirection >= 0)
         {
             hitDirection = -1;
@@ -124,17 +130,16 @@ public class EnemyManager : MonoBehaviour
             if (horizontalDirection == -1) Flip();
         }
 
-        //Damage gets caltulated
-        float finalDamage = physicalDamage * (1 - physicalDefence / 100) + magicDamage * (1 - magicDefence / 100) + holyDamage * (1 - holyDefence / 100);
+        var finalDamage = physicalDamage * (1 - physicalDefence / 100) + magicDamage * (1 - magicDefence / 100) + holyDamage * (1 - holyDefence / 100);
 
-        health -= Mathf.RoundToInt(finalDamage);
+        health -= RoundToInt(finalDamage);
 
         if (health > 0)
         {
             anim.Play("Hit_Reaction");
 
             if (canBePushed && pushForce != 0)
-                StartCoroutine(PushBackCoroutine(Mathf.RoundToInt(-pushForce * hitDirection)));
+                StartCoroutine(PushBackCoroutine(RoundToInt(-pushForce * hitDirection)));
 
             if (canBeStunned && stunDuration != 0)
                 StartCoroutine(StunCoroutine(stunDuration));
@@ -150,7 +155,7 @@ public class EnemyManager : MonoBehaviour
         ChangeHealthSliderValue();
     }
 
-    public void DamageEnemyWhenTouched()
+    protected void DamageEnemyWhenTouched()
     {
         attackTimer -= Time.deltaTime;
 
@@ -172,12 +177,12 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(StunCoroutine(2f));
     }
 
-    public virtual void Die(float hitDirection)
+    protected virtual void Die(float hitDirection)
     {
         isDead = true;
         inCombat = false;
         anim.Play("Die");
-        //Invoke("Revive",5f);
+        if(NextSceneTrigger.Instance!=null) NextSceneTrigger.Instance.CheckIfAllEnemiesAreDead();
     }
 
     public virtual void Revive()
@@ -188,11 +193,11 @@ public class EnemyManager : MonoBehaviour
         anim.Play("Idle");
     }
 
-    public IEnumerator PushBackCoroutine(int pushForce)
+    private IEnumerator PushBackCoroutine(int pushForce)
     {
         isBeingPushed = true;
         rb.linearVelocity = new Vector2(pushForce, 0);
-        StartCoroutine(CameraShakeEffect.Instance.ShakeCameraCorutine(Mathf.Abs(pushForce)/5, .2f));
+        StartCoroutine(CameraShakeEffect.Instance.ShakeCameraCorutine(Abs(pushForce)/5, .2f));
 
         yield return new WaitForSeconds(.3f);
 
@@ -200,7 +205,7 @@ public class EnemyManager : MonoBehaviour
         rb.linearVelocityX = 0;
     }
 
-    public IEnumerator StunCoroutine(float stunDuration)
+    private IEnumerator StunCoroutine(float stunDuration)
     {
         isStunned = true;
 
@@ -209,11 +214,11 @@ public class EnemyManager : MonoBehaviour
         isStunned = false;
     }
 
-    public IEnumerator Roll()
+    protected IEnumerator Roll()
     {
-        float currenntRollChance = Random.Range(0, 100);
+        float currentRollChance = Random.Range(0, 100);
 
-        if (currenntRollChance < rollChance)
+        if (currentRollChance < rollChance)
         {
             anim.Play("Roll");
             isBeingPushed = true;
@@ -234,11 +239,12 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Movement
-    public void MoveAroundThePlatform()
+
+    protected void MoveAroundThePlatform()
     {
         CheckForEnemy();
 
-        if (Mathf.Abs(transform.position.x - destinationX) > .3f || !WillBeGrounded() || WillTouchWall())
+        if (Abs(transform.position.x - destinationX) > .3f || !WillBeGrounded() || WillTouchWall())
         {
             if (transform.position.x - destinationX >= 0)
             {
@@ -263,7 +269,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void SelectRandomDestination()
+    protected void SelectRandomDestination()
     {
         float distance = Random.Range(-9, 9);
 
@@ -272,7 +278,7 @@ public class EnemyManager : MonoBehaviour
         waitAroundTimer = maxWaitAroundTimer;
     }
 
-    public void MoveToPlayer()
+    protected void MoveToPlayer()
     {
         distanceFromPlayer = Vector2.Distance(player.transform.position, transform.position);
         FaceToPlayer();
@@ -287,14 +293,14 @@ public class EnemyManager : MonoBehaviour
         rb.linearVelocityX = speed * horizontalDirection;
     }
 
-    public void MoveOnPlatform()
+    protected void MoveOnPlatform()
     {
         anim.Play("Walk");
 
         if (speedUpTimer < 1)
         {
             speedUpTimer += Time.deltaTime;
-            rb.linearVelocityX = Mathf.Lerp(0, speed * horizontalDirection, speedUpTimer);
+            rb.linearVelocityX = Lerp(0, speed * horizontalDirection, speedUpTimer);
         }
         else
         {
@@ -305,7 +311,7 @@ public class EnemyManager : MonoBehaviour
             Flip();
     }
 
-    public void FaceToPlayer()
+    protected void FaceToPlayer()
     {
         if (transform.position.x - player.transform.position.x >= 0)
         {
@@ -317,18 +323,18 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void Flip()
+    private void Flip()
     {
         horizontalDirection *= -1;
         sprite.flipX = horizontalDirection == 1 ? false : true;
     }
 
-    public void HandleGravity()
+    protected void HandleGravity()
     {
         if (rb.linearVelocityY < 0)
         {
             rb.gravityScale = baseGravity * fallGravityMult;
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, Mathf.Max(rb.linearVelocityY, -maxFallSpeed));
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, Max(rb.linearVelocityY, -maxFallSpeed));
         }
         else
         {
@@ -338,30 +344,31 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Ground Checks
-    public bool IsGrounded()
+    protected bool IsGrounded()
     {
         return Physics2D.OverlapBox(transform.position + new Vector3(0, -characterLength / 2, 0), groundCheckSize, 0, groundLayer);
     }
 
-    public bool WillBeGrounded()
+    private bool WillBeGrounded()
     {
         return Physics2D.OverlapBox(transform.position + new Vector3(horizontalDirection * characterSize / 2, -characterLength / 2, 0), groundCheckFrontSize, 0, groundLayer);
     }
 
-    public bool WillTouchWall()
+    private bool WillTouchWall()
     {
         return Physics2D.OverlapBox(transform.position + new Vector3(horizontalDirection * characterSize / 2, 0, 0), groundCheckFrontSize, 0, groundLayer);
     }
     #endregion
 
     #region UI
-    public void SetMaxHealthSliderValue()
+
+    private void SetMaxHealthSliderValue()
     {
         healthSlider.maxValue = maxHealth;
         ChangeHealthSliderValue();
     }
 
-    public void ChangeHealthSliderValue()
+    private void ChangeHealthSliderValue()
     {
         if (health == 0)
             healthSlider.gameObject.SetActive(false);

@@ -4,46 +4,54 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombatManager : MonoBehaviour
 {
-    PlayerManager player;
+    private PlayerManager player;
 
     [Header("Player Stats")]
-    [SerializeField] int maxHealth = 300;
-    int currentHealth;
-    [SerializeField] int maxMana = 100;
-    int currentMana;
-    [SerializeField] int maxUltimate = 100;
-    int currentUltimate;
-    [SerializeField] int maxPotion = 2;
-    int currentPotion;
+    [SerializeField]
+    private int maxHealth = 300;
+
+    private int currentHealth;
+    [SerializeField] private int maxMana = 100;
+    private int currentMana;
+    [SerializeField] private int maxUltimate = 100;
+    private int currentUltimate;
+    [SerializeField] private int maxPotion = 2;
+    private int currentPotion;
 
     [Header("Player Defence")]
-    [SerializeField] float physicalDefence;
-    [SerializeField] float magicDefence;
-    [SerializeField] float blockDefence;
+    [SerializeField]
+    private float physicalDefence;
+    [SerializeField] private float magicDefence;
+    [SerializeField] private float blockDefence;
 
     [Header("Player Damage")]
-    [SerializeField] float physicalDamageMultiplier = 1;
-    [SerializeField] float magicDamageMultiplier = 1;
-    [SerializeField] float holyDamageMultiplier = 1;
+    [SerializeField]
+    private float physicalDamageMultiplier = 1;
+    [SerializeField] private float magicDamageMultiplier = 1;
+    [SerializeField] private float holyDamageMultiplier = 1;
 
     [Header("Attack Zones")]
-    [SerializeField] Transform damageZone;
-    [SerializeField] Transform parryZone;
+    [SerializeField]
+    private Transform damageZone;
+    [SerializeField] private Transform parryZone;
 
     [Header("Enemy Layer")]
-    [SerializeField] LayerMask enemyLayer;
+    [SerializeField]
+    private LayerMask enemyLayer;
 
     [Header("Attack List")]
-    [SerializeField] AttackActions lightAttack01;
-    [SerializeField] AttackActions lightAttack02;
-    [SerializeField] AttackActions lightAttack03;
-    [SerializeField] AttackActions heavyAttack01;
-    [SerializeField] AttackActions heavyAttack02;
-    [SerializeField] AttackActions magicAttack01;
-    AttackActions currentAttackAction;
+    [SerializeField]
+    private AttackActions lightAttack01;
+    [SerializeField] private AttackActions lightAttack02;
+    [SerializeField] private AttackActions lightAttack03;
+    [SerializeField] private AttackActions heavyAttack01;
+    [SerializeField] private AttackActions heavyAttack02;
+    [SerializeField] private AttackActions magicAttack01;
+    private AttackActions currentAttackAction;
 
     [Header("Last Attack")]
-    [SerializeField] AttackActions lastAttack;
+    [SerializeField]
+    private AttackActions lastAttack;
 
     [Header("Player Status")]
     public bool isBlocking;
@@ -52,10 +60,11 @@ public class PlayerCombatManager : MonoBehaviour
     public bool isAttacking;
 
     [Header("Timers")]
-    [SerializeField] float maxParryTimer = .1f;
-    [SerializeField] float maxComboTimer = 1f;
-    float parryTimer;
-    float comboTimer;
+    [SerializeField]
+    private float maxParryTimer = .1f;
+    [SerializeField] private float maxComboTimer = 1f;
+    private float parryTimer;
+    private float comboTimer;
 
     private void Start()
     {
@@ -154,7 +163,7 @@ public class PlayerCombatManager : MonoBehaviour
         StartCoroutine(CameraShakeEffect.Instance.ShakeCameraCorutine(2, .2f));
     }
 
-    void Die()
+    private void Die()
     {
         player.isDead = true;
         player.isInteracting = true;

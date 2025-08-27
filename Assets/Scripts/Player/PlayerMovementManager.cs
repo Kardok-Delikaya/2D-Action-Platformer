@@ -6,44 +6,50 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class PlayerMovementManager : MonoBehaviour
 {
-    Rigidbody2D rb;
-    PlayerManager player;
-    SpriteRenderer sprite;
-    CapsuleCollider2D col2D;
+    private Rigidbody2D rb;
+    private PlayerManager player;
+    private SpriteRenderer sprite;
+    private CapsuleCollider2D col2D;
 
     [Header("Movement")]
-    [SerializeField] float moveSpeed = 10f;
+    [SerializeField]
+    private float moveSpeed = 10f;
     public int horizontalDirection = 1;
-    float horizontalMovement;
-    float verticalMovement;
+    private float horizontalMovement;
+    private float verticalMovement;
 
     [Header("Rolling")]
-    [SerializeField] float rollSpeed = 20f;
-    [SerializeField] float rollDuration = 0.25f;
-    [SerializeField] bool isRolling;
+    [SerializeField]
+    private float rollSpeed = 20f;
+    [SerializeField] private float rollDuration = 0.25f;
+    [SerializeField] private bool isRolling;
 
     [Header("Jump")]
-    [SerializeField] float jumpPower = 18f;
+    [SerializeField]
+    private float jumpPower = 18f;
     public bool canWallJump;
 
     [Header("Ground Check")]
-    [SerializeField] Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
-    [SerializeField] Vector2 wallCheckSize = new Vector2(0.03f, 0.49f);
-    [SerializeField] LayerMask groundLayer;
+    [SerializeField]
+    private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+    [SerializeField] private Vector2 wallCheckSize = new Vector2(0.03f, 0.49f);
+    [SerializeField] private LayerMask groundLayer;
 
     [Header("Gravity")]
-    [SerializeField] float baseGravity = 3f;
-    [SerializeField] float maxFallSpeed = 18f;
-    [SerializeField] float fallGravityMult = 3f;
+    [SerializeField]
+    private float baseGravity = 3f;
+    [SerializeField] private float maxFallSpeed = 18f;
+    [SerializeField] private float fallGravityMult = 3f;
 
     [Header("Wall Movement")]
-    [SerializeField] float wallSlideSpeed = 2f;
-    [SerializeField] Vector2 wallJumpPower = new Vector2(10f, 20f);
-    bool isWallSliding;
-    bool isWallJumping;
-    float wallJumpDirection;
+    [SerializeField]
+    private float wallSlideSpeed = 2f;
+    [SerializeField] private Vector2 wallJumpPower = new Vector2(10f, 20f);
+    private bool isWallSliding;
+    private bool isWallJumping;
+    private float wallJumpDirection;
 
-    void Awake()
+    private void Awake()
     {
         col2D = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -51,7 +57,7 @@ public class PlayerMovementManager : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
         ProcessGravity();
 

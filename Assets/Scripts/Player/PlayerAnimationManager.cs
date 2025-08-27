@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerAnimationManager : MonoBehaviour
 {
-    Animator anim;
-    PlayerManager player;
+    private Animator anim;
+    private PlayerManager player;
 
     private void Awake()
     {
