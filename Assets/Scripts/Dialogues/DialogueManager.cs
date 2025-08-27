@@ -1,9 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -29,12 +28,17 @@ public class DialogueManager : MonoBehaviour
     string currentTalkingCharacter;
     DialogueLine currentLine;
 
-    void Start()
+    void Awake()
     {
-        player=FindAnyObjectByType<PlayerManager>();
-
         if (Instance == null)
             Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        player=FindAnyObjectByType<PlayerManager>();
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -119,10 +123,9 @@ public class DialogueManager : MonoBehaviour
         player.isInteracting = false;
     }
 
-    public void HandleNextDialogueInput(InputAction.CallbackContext context)
+    public void HandleNextDialogueInput()
     {
-        if (context.performed)
-        {
+        
             if (isTypingDialogue)
             {
                 StopAllCoroutines();
@@ -133,6 +136,6 @@ public class DialogueManager : MonoBehaviour
             {
                 DisplayNextDialogueLine();
             }
-        }
+        
     }
 }

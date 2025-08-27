@@ -1,9 +1,20 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
 public class HitStop : MonoBehaviour
 {
+    public static HitStop Instance;
+    
     bool isWaiting;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     public void HitStopEffect(float duration)
     {

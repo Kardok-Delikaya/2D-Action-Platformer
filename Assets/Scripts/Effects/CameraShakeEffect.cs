@@ -1,10 +1,21 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using System.Collections;
 
 public class CameraShakeEffect : MonoBehaviour
 {
+    public static CameraShakeEffect Instance;
+    
     public bool canScreenShake = true;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
 
     public IEnumerator ShakeCameraCorutine(float shakeIntensity, float shakeTime)
     {

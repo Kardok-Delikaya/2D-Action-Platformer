@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+    
     [Header("Bars")]
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider manaSlider;
@@ -12,6 +15,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] Sprite potionBottle;
     [SerializeField] Sprite emptyBottle;
     [SerializeField] Image[] potionIcons;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     public void HandleUIStart(int maxHealth, int maxMana, int maxUltimate, int maxPotion, int health, int mana, int ultimate, int potionCount)
     {

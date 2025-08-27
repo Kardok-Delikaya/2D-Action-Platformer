@@ -57,14 +57,14 @@ public class PlayerCombatManager : MonoBehaviour
     float parryTimer;
     float comboTimer;
 
-    private void Awake()
+    private void Start()
     {
         player = GetComponent<PlayerManager>();
         currentHealth = maxHealth;
         currentMana = maxMana;
         currentUltimate = maxUltimate;
         currentPotion = maxPotion;
-        player.uiManager.HandleUIStart(maxHealth, maxMana, maxUltimate, maxPotion, currentHealth, currentMana, currentUltimate, currentPotion);
+        UIManager.Instance.HandleUIStart(maxHealth, maxMana, maxUltimate, maxPotion, currentHealth, currentMana, currentUltimate, currentPotion);
     }
 
     private void Update()
@@ -148,10 +148,10 @@ public class PlayerCombatManager : MonoBehaviour
             Die();
         }
 
-        player.uiManager.UpdateHealthSlider(currentHealth);
+        UIManager.Instance.UpdateHealthSlider(currentHealth);
 
-        FindAnyObjectByType<HitStop>().HitStopEffect(.2f);
-        StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(2, .2f));
+        HitStop.Instance.HitStopEffect(.2f);
+        StartCoroutine(CameraShakeEffect.Instance.ShakeCameraCorutine(2, .2f));
     }
 
     void Die()
@@ -164,6 +164,8 @@ public class PlayerCombatManager : MonoBehaviour
     #region Handle Actions
     public void HandleBlock(InputAction.CallbackContext context)
     {
+        if (player.isDead) return;
+        
         if (context.started && !player.isInteracting)
         {
             isAttacking = true;
@@ -179,6 +181,8 @@ public class PlayerCombatManager : MonoBehaviour
 
     public void HandleLightAttack(InputAction.CallbackContext context)
     {
+        if (player.isDead) return;
+        
         if (context.started)
         {
             damageZone.localPosition = new Vector3(player.playerMovement.horizontalDirection * Mathf.Abs(damageZone.localPosition.x), damageZone.localPosition.y);
@@ -205,6 +209,8 @@ public class PlayerCombatManager : MonoBehaviour
 
     public void HandleHeavyAttack(InputAction.CallbackContext context)
     {
+        if (player.isDead) return;
+        
         if (context.started)
         {
             damageZone.localPosition = new Vector3(player.playerMovement.horizontalDirection * Mathf.Abs(damageZone.localPosition.x), damageZone.localPosition.y);
@@ -225,6 +231,8 @@ public class PlayerCombatManager : MonoBehaviour
 
     public void HandleMagicAttack(InputAction.CallbackContext context)
     {
+        if (player.isDead) return;
+        
         if (context.started)
         {
             damageZone.localPosition = new Vector3(player.playerMovement.horizontalDirection * Mathf.Abs(damageZone.localPosition.x), damageZone.localPosition.y);
@@ -238,7 +246,7 @@ public class PlayerCombatManager : MonoBehaviour
                 currentAttackAction = magicAttack01;
                 player.playerAnimation.PlayAnimation(currentAttackAction.attackAnimation);
                 currentMana -= 15;
-                player.uiManager.UpdateManaSlider(currentMana);
+                UIManager.Instance.UpdateManaSlider(currentMana);
             }
         }
     }

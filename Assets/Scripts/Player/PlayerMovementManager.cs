@@ -55,7 +55,7 @@ public class PlayerMovementManager : MonoBehaviour
     {
         ProcessGravity();
 
-        if (player.playerCombat.isAttacking)
+        if (player.playerCombat.isAttacking || player.isDead)
         {
             rb.linearVelocityX = 0;
         }
@@ -94,7 +94,7 @@ public class PlayerMovementManager : MonoBehaviour
         if (context.performed && IsGrounded())
         {
             StartCoroutine(RollCoroutine());
-            StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(1, .05f));
+            StartCoroutine(CameraShakeEffect.Instance.ShakeCameraCorutine(1, .05f));
         }
     }
 
@@ -120,7 +120,7 @@ public class PlayerMovementManager : MonoBehaviour
         rb.linearVelocityX = 0;
         player.isInteracting = false;
     }
-
+    
     public void Jump(InputAction.CallbackContext context)
     {
         if (player.isInteracting)
@@ -132,7 +132,6 @@ public class PlayerMovementManager : MonoBehaviour
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpPower);
                 player.playerAnimation.PlayAnimation("Jump", false);
-                StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(1f, .1f));
             }
         }
         else if (context.canceled && rb.linearVelocityY > 0)

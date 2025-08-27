@@ -27,14 +27,14 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
 
-    public void TriggerDialogue()
+    private void TriggerDialogue()
     {
         DialogueManager.Instance.StartDialogue(dialogue);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             TriggerDialogue();
             GetComponent<BoxCollider2D>().enabled = false;

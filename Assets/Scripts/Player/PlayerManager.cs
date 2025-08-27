@@ -11,7 +11,6 @@ public class PlayerManager : MonoBehaviour
     public bool isDead;
     public bool isInteracting;
 
-    public UIManager uiManager { get; private set; }
     public PlayerSkillTree skillTree { get; private set; }
     public PlayerMovementManager playerMovement { get; private set; }
     public PlayerCombatManager playerCombat { get; private set; }
@@ -19,18 +18,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        uiManager = FindAnyObjectByType<UIManager>();
         skillTree = GetComponent<PlayerSkillTree>(); 
         playerMovement = GetComponent<PlayerMovementManager>();
         playerCombat = GetComponent<PlayerCombatManager>();
         playerAnimation = GetComponent<PlayerAnimationManager>();
-    }
-
-    public void HandleRestartScene(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            if (isDead) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
     }
 }

@@ -27,6 +27,8 @@ public class Projectile : MonoBehaviour
     {
         if (collision.GetComponent<PlayerManager>() != null)
         {
+            if (collision.GetComponent<PlayerCombatManager>().isInvulnerable) return;
+            
             collision.GetComponent<PlayerCombatManager>().GetHit(physicalDamage, magicDamage, transform.position.x, stunDuration, pushForce);
         }
 

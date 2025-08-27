@@ -192,7 +192,7 @@ public class EnemyManager : MonoBehaviour
     {
         isBeingPushed = true;
         rb.linearVelocity = new Vector2(pushForce, 0);
-        StartCoroutine(FindAnyObjectByType<CameraShakeEffect>().ShakeCameraCorutine(Mathf.Abs(pushForce)/5, .2f));
+        StartCoroutine(CameraShakeEffect.Instance.ShakeCameraCorutine(Mathf.Abs(pushForce)/5, .2f));
 
         yield return new WaitForSeconds(.3f);
 
