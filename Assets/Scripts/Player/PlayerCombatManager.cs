@@ -114,7 +114,7 @@ public class PlayerCombatManager : MonoBehaviour
 
             if (player.playerMovement.horizontalDirection == 1) player.playerMovement.Flip();
         }
-        else
+        else if  (transform.position.x - hitDirection < 0)
         {
             hitDirection = 1;
 
@@ -261,7 +261,7 @@ public class PlayerCombatManager : MonoBehaviour
     }
     #endregion
 
-    public IEnumerator StunCoroutine(float stunDuration)
+    private IEnumerator StunCoroutine(float stunDuration)
     {
         isStunned = true;
 

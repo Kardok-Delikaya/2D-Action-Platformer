@@ -108,7 +108,6 @@ public class PlayerMovementManager : MonoBehaviour
     {
         player.playerAnimation.PlayAnimation("Roll");
 
-
         rb.linearVelocity = new Vector2(horizontalDirection * rollSpeed, rb.linearVelocityY);
 
         yield return new WaitForSeconds(rollDuration);
@@ -206,7 +205,7 @@ public class PlayerMovementManager : MonoBehaviour
     public void Flip()
     {
         horizontalDirection *= -1;
-        sprite.flipX = horizontalDirection == 1 ? false : true;
+        sprite.flipX = horizontalDirection != 1;
     }
 
     public bool IsGrounded()
@@ -214,7 +213,7 @@ public class PlayerMovementManager : MonoBehaviour
         return Physics2D.OverlapBox(transform.position + new Vector3(0, col2D.size.y / -2, 0), groundCheckSize, 0, groundLayer);
     }
 
-    public bool WallCheck()
+    private bool WallCheck()
     {
         return Physics2D.OverlapBox(transform.position + new Vector3(col2D.size.x / 2 * horizontalDirection, 0, 0), wallCheckSize, 0, groundLayer);
     }

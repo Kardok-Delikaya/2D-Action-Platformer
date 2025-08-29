@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerAnimationManager : MonoBehaviour
 {
+    private static readonly int Move = Animator.StringToHash("Move");
+    private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
     private Animator anim;
     private PlayerManager player;
 
@@ -13,8 +15,8 @@ public class PlayerAnimationManager : MonoBehaviour
 
     private void Update()
     {
-        anim.SetFloat("Move", Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocityX));
-        anim.SetBool("isGrounded", player.playerMovement.IsGrounded());
+        anim.SetFloat(Move, Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocityX));
+        anim.SetBool(IsGrounded, player.playerMovement.IsGrounded());
     }
 
     public void PlayAnimation(string animationName, bool isInteracting = true)

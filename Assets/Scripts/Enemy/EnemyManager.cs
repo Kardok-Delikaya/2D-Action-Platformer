@@ -55,7 +55,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Agro Settings")]
     [SerializeField]
-    private Vector2 agroArea = new Vector2(16, 4);
+    private Vector2 agroArea = new Vector2(32, 1);
     protected bool inCombat;
     [SerializeField] protected LayerMask playerLayer;
     protected float distanceFromPlayer;
