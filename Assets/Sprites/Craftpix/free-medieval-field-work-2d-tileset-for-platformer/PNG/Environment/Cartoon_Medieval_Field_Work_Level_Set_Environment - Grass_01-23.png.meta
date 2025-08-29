@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Cartoon_Medieval_Field_Work_Level_Set_Environment - Grass_01-23_0: -5334603356290475714
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

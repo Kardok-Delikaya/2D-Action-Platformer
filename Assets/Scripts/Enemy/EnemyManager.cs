@@ -97,7 +97,7 @@ public class EnemyManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        anim.SetFloat("VelocityX", rb.linearVelocityX);
+        anim.SetFloat("VelocityX", Abs(rb.linearVelocityX));
     }
 
     #region Combat
@@ -244,21 +244,16 @@ public class EnemyManager : MonoBehaviour
     {
         CheckForEnemy();
 
-        if (Abs(transform.position.x - destinationX) > .3f || !WillBeGrounded() || WillTouchWall())
+        if (transform.position.x - destinationX >= 0)
         {
-            if (transform.position.x - destinationX >= 0)
-            {
-                if (horizontalDirection==1) Flip();
-            }
-            else
-            {
-                if (horizontalDirection == -1) Flip();
-            }
-
-            rb.linearVelocityX = speed * horizontalDirection;
-            anim.Play("Walk");
+            if (horizontalDirection == 1) Flip();
         }
         else
+        {
+            if (horizontalDirection == -1) Flip();
+        }
+
+        if (!WillBeGrounded() || WillTouchWall() || Abs(transform.position.x - destinationX) < .3f)
         {
             rb.linearVelocityX = 0;
 
@@ -266,7 +261,12 @@ public class EnemyManager : MonoBehaviour
 
             if (waitAroundTimer < 0)
                 SelectRandomDestination();
+            
+            return;
         }
+
+        rb.linearVelocityX = speed * horizontalDirection;
+        anim.Play("Walk");
     }
 
     protected void SelectRandomDestination()

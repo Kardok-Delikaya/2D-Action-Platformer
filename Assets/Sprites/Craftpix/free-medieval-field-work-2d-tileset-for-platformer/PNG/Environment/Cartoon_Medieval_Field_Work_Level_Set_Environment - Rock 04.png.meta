@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Cartoon_Medieval_Field_Work_Level_Set_Environment - Rock 04_0: 1997487377687676195
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

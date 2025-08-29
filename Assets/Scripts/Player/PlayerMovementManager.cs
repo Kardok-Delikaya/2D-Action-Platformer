@@ -172,7 +172,7 @@ public class PlayerMovementManager : MonoBehaviour
         }
     }
 
-    public void ProcessWallSlide()
+    private void ProcessWallSlide()
     {
         if (!IsGrounded() & WallCheck())
         {
@@ -185,7 +185,7 @@ public class PlayerMovementManager : MonoBehaviour
         }
     }
 
-    public void ProcessWallJump()
+    private void ProcessWallJump()
     {
         if (isWallSliding)
         {

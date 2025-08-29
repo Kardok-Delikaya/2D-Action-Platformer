@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Cartoon_Medieval_Field_Work_Level_Set_Environment - Banner 02_0: -6095592166690279804
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

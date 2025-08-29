@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Cartoon_Medieval_Field_Work_Level_Set_Environment - Barrel_0: 195191761989620780
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
