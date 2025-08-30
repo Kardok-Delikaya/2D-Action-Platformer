@@ -50,8 +50,7 @@ public class PlayerCombatManager : MonoBehaviour
     private AttackActions currentAttackAction;
 
     [Header("Last Attack")]
-    [SerializeField]
-    private AttackActions lastAttack;
+    [SerializeField] private AttackActions lastAttack;
 
     [Header("Player Status")]
     public bool isBlocking;
@@ -69,10 +68,19 @@ public class PlayerCombatManager : MonoBehaviour
     private void Start()
     {
         player = GetComponent<PlayerManager>();
-        currentHealth = maxHealth;
-        currentMana = maxMana;
-        currentUltimate = maxUltimate;
-        currentPotion = maxPotion;
+        
+        if (PlayerPrefs.HasKey("Player_Health"))
+        {
+            HandlePlayerStatLoad();
+        }
+        else
+        {
+            currentHealth = maxHealth;
+            currentMana = maxMana;
+            currentUltimate = maxUltimate;
+            currentPotion = maxPotion;
+        }
+        
         UIManager.Instance.HandleUIStart(maxHealth, maxMana, maxUltimate, maxPotion, currentHealth, currentMana, currentUltimate, currentPotion);
     }
 
@@ -297,6 +305,24 @@ public class PlayerCombatManager : MonoBehaviour
     public void StartComboTimer()
     {
         comboTimer = maxComboTimer;
+    }
+    #endregion
+
+    #region Handle Prefs
+    public void HandlePlayerStatSave()
+    {
+        PlayerPrefs.SetInt("Player_Health",currentHealth);
+        PlayerPrefs.SetInt("Player_Mana",currentMana);
+        PlayerPrefs.SetInt("Player_Ultimate",currentUltimate);
+        PlayerPrefs.SetInt("Player_Potion",currentPotion);
+    }
+
+    private void HandlePlayerStatLoad()
+    {
+        currentHealth = PlayerPrefs.GetInt("Player_Health");
+        currentMana = PlayerPrefs.GetInt("Player_Mana");
+        currentUltimate = PlayerPrefs.GetInt("Player_Ultimate");
+        currentPotion = PlayerPrefs.GetInt("Player_Potion");
     }
     #endregion
 }

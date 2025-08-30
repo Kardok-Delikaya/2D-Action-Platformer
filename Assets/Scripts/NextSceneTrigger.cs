@@ -47,6 +47,7 @@ public class NextSceneTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            collision.GetComponent<PlayerCombatManager>().HandlePlayerStatSave();
             GetComponent<BoxCollider2D>().enabled = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

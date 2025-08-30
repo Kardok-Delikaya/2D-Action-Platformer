@@ -9,6 +9,7 @@ public class PlayerInputManager : MonoBehaviour
         if (context.performed)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            PlayerPrefs.DeleteAll();
         }
     }
     
@@ -17,6 +18,7 @@ public class PlayerInputManager : MonoBehaviour
         if (context.performed)
         {
             SceneManager.LoadScene(0);
+            PlayerPrefs.DeleteAll();
         }
     }
     

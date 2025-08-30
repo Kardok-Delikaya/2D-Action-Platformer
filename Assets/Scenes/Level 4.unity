@@ -233,6 +233,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a921e1579ae403438727aa870099b32, type: 3}
+--- !u!1 &273540089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2482137651930627639, guid: 8a921e1579ae403438727aa870099b32, type: 3}
+  m_PrefabInstance: {fileID: 273540088}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &418605473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -648,6 +653,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1672304749340838389, guid: d2202959ed208e24f8ef3c5c6ad6fe8d, type: 3}
+      propertyPath: 'objectsToKeepBetweenScenes.Array.data[0]'
+      value: 
+      objectReference: {fileID: 273540089}
     - target: {fileID: 2655860016701689839, guid: d2202959ed208e24f8ef3c5c6ad6fe8d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1637,7 +1646,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 13
+      m_TileSpriteIndex: 14
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2017,7 +2026,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 8
+      m_TileSpriteIndex: 13
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2344,8 +2353,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 42
     m_Data: {fileID: 21300000, guid: 38cb9b4c6f3b33d4da332e565d7fa386, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 95f61641b04d1b742822cc5e5489c03d, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 3
@@ -2355,9 +2364,9 @@ Tilemap:
   - m_RefCount: 3
     m_Data: {fileID: 21300000, guid: 009b28eb3e033104d902f39f73772d38, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 95f61641b04d1b742822cc5e5489c03d, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 39c28b9f6d7ece340841dd571fa6ab1a, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 104a5e83779d1af49a591446196e68e1, type: 3}
   - m_RefCount: 2

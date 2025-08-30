@@ -904,6 +904,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1672304749340838389, guid: d2202959ed208e24f8ef3c5c6ad6fe8d, type: 3}
+      propertyPath: 'objectsToKeepBetweenScenes.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1809563331}
     - target: {fileID: 2655860016701689839, guid: d2202959ed208e24f8ef3c5c6ad6fe8d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2600,6 +2604,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a921e1579ae403438727aa870099b32, type: 3}
+--- !u!1 &1809563331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2482137651930627639, guid: 8a921e1579ae403438727aa870099b32, type: 3}
+  m_PrefabInstance: {fileID: 1809563330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1946879443
 GameObject:
   m_ObjectHideFlags: 0
